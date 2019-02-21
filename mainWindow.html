@@ -9,11 +9,40 @@
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
  <div class="grid">
      <aside>
+         <!--TODO add buttons here to select a name-->
+         <div class="container">
+             <!--<button class="btn waves-effect center-align">Read more</button>-->
+             <!--<a href="#" class="btn floating red large"><i class="large material-icons">add</i></a>-->
+             <button class="btn-large" onclick="generateName()">Get Name</button>
+             <button class="btn-large" onclick="resetNames()">Reset</button>
+             <div class="switch">
+                 <label>
+
+                     <input type="checkbox">
+                     <span class="lever"></span>
+                     Reset Names
+                 </label>
+             </div>
+         </div>
+
 
      </aside>
-     <main id="drag-file">
+     <main class="container" id="drag-file">
+
+         <div class="red white-text item center-align ">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+         <div class="red white-text item">Name</div>
+
 
      </main>
  </div>
@@ -48,11 +77,27 @@
     <!--}-->
     <!--</script>-->
 <script>
+
+    function resetNames(){
+        const matches = document.querySelectorAll("div.item");
+
+        for (let match of matches){
+            match.className="red item white-text";
+        }
+    }
+    function generateName(){
+        const matches = document.querySelectorAll("div.red");
+        let array = Array.from(matches);
+        let index = Math.floor(Math.random() * array.length);
+        array[index].className="black item white-text";
+    }
+
     const fs = require('fs');
     (function () {
         var holder = document.getElementById('drag-file');
 
         holder.ondragover = () => {
+            //TODO make this look pretty
             console.log("Dragged over lmao");
             return false;
         };
@@ -73,13 +118,12 @@
                 fs.readFile(f.path, (err,data) => {
                     if (err) throw err;
 
-                    const names = data.toString().split("\n");
-                    console.log(names);
-
                     const main = document.querySelector('main');
+                    const names = data.toString().split("\n");
+
                     for (let name of names){
                         let div = document.createElement('div');
-                        div.className="item";
+                        div.className="red item white-text";
                         div.textContent = name;
                         main.appendChild(div);
                     }
