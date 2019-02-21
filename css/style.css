@@ -1,0 +1,48 @@
+.grid {
+    display:grid;
+
+    grid-template-areas:
+        "header header"
+        "side content"
+    ;
+
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-gap: 10px;
+
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+}
+
+
+main {
+    grid-area: content;
+    border: black solid;
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));*/
+    /*grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));*/
+    grid-template-columns: repeat(auto-fill, 8rem);
+    /*overflow: scroll;*/
+    /*grid-auto-flow: column dense;*/
+
+}
+
+aside {
+
+    border:blue solid;
+    grid-area: side;
+    margin-right: 0.5rem;
+}
+
+.box {
+    margin: 10px;
+    height: 4rem;
+    width: 7em;
+    /*margin: 10px;*/
+    background-color: blue;
+    border: solid red;
+
+}
