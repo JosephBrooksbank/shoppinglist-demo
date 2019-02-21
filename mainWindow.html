@@ -10,34 +10,10 @@
 </head>
 <body>
  <div class="grid">
-     <aside>A</aside>
-     <main>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
-         <div class="box"></div>
+     <aside>
+
+     </aside>
+     <main id="drag-file">
 
      </main>
  </div>
@@ -46,29 +22,75 @@
  <script type="text/javascript" src="js/materialize.js"></script>
 </body>
 
+<!--<script>-->
+    <!--const electron = require('electron');-->
+    <!--const {ipcRenderer} = electron;-->
+    <!--const ul = document.querySelector('ul');-->
+
+    <!--// add item-->
+    <!--ipcRenderer.on('item:add', function(e, item){-->
+       <!--const li = document.createElement('li');-->
+       <!--const itemText = document.createTextNode(item);-->
+       <!--li.appendChild(itemText);-->
+       <!--ul.appendChild(li);-->
+    <!--});-->
+
+    <!--// Clear items-->
+    <!--ipcRenderer.on('item:clear', function(e, item){-->
+        <!--ul.innerHTML= '';-->
+    <!--});-->
+
+    <!--// Remove items-->
+    <!--ul.addEventListener('dblclick', removeItem);-->
+
+    <!--function removeItem(e){-->
+        <!--e.target.remove();-->
+    <!--}-->
+    <!--</script>-->
 <script>
-    const electron = require('electron');
-    const {ipcRenderer} = electron;
-    const ul = document.querySelector('ul');
+    const fs = require('fs');
+    (function () {
+        var holder = document.getElementById('drag-file');
 
-    // add item
-    ipcRenderer.on('item:add', function(e, item){
-       const li = document.createElement('li');
-       const itemText = document.createTextNode(item);
-       li.appendChild(itemText);
-       ul.appendChild(li);
-    });
+        holder.ondragover = () => {
+            console.log("Dragged over lmao");
+            return false;
+        };
 
-    // Clear items
-    ipcRenderer.on('item:clear', function(e, item){
-        ul.innerHTML= '';
-    });
+        holder.ondragleave = () => {
+            return false;
+        };
 
-    // Remove items
-    ul.addEventListener('dblclick', removeItem);
+        holder.ondragend = () => {
+            return false;
+        };
 
-    function removeItem(e){
-        e.target.remove();
-    }
+        holder.ondrop = (e) => {
+            e.preventDefault();
+
+            for (let f of e.dataTransfer.files) {
+                console.log('File(s) you dragged here: ', f.path);
+                fs.readFile(f.path, (err,data) => {
+                    if (err) throw err;
+
+                    const names = data.toString().split("\n");
+                    console.log(names);
+
+                    const main = document.querySelector('main');
+                    for (let name of names){
+                        let div = document.createElement('div');
+                        div.className="item";
+                        div.textContent = name;
+                        main.appendChild(div);
+                    }
+
+
+                })
+
+            }
+
+            return false;
+        };
+    })();
 </script>
 </html>

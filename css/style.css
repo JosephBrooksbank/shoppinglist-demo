@@ -37,12 +37,19 @@ aside {
     margin-right: 0.5rem;
 }
 
-.box {
+.item {
+
     margin: 10px;
     height: 4rem;
     width: 7em;
     /*margin: 10px;*/
     background-color: blue;
     border: solid red;
+    color:black;
 
 }
+
+#drag-file {
+
+}
+
